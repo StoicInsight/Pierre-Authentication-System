@@ -1,33 +1,36 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
 
 export const Home = () => {
   const { store, actions } = useContext(Context);
+  const token = sessionStorage.getItem("Token");
+  const user = sessionStorage.getItem("User");
 
-  const token = store.token;
-
-  if (!token) {
-    console.log("No token yet brooooo", token);
-  } else console.log("We got the token bro", token);
+  const logout = () => {
+    actions.logout();
+  };
 
   return (
-    <div className="text-center mt-5">
-      <h1>Hello Rigo!!</h1>
-      <p>
-        <img src={rigoImageUrl} />
-      </p>
-      <div className="alert alert-info">
-        {store.message ||
-          "Loading message from the backend (make sure your python backend is running)..."}
+    <div className="home">
+      <div className="form">
+        <h1>You're not logged in please login</h1>
+        <section className="bg-stars">
+          <span className="star"></span>
+          <span className="star"></span>
+          <span className="star"></span>
+          <span className="star"></span>
+          <span className="star"></span>
+          <span className="star"></span>
+          <span className="star"></span>
+          <span className="star"></span>
+        </section>
+        <Link to="/login" className="login">
+          Login
+        </Link>
       </div>
-      <p>
-        This boilerplate comes with lots of documentation:{" "}
-        <a href="https://start.4geeksacademy.com/starters/react-flask">
-          Read documentation
-        </a>
-      </p>
     </div>
   );
 };

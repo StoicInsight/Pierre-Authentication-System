@@ -58,7 +58,7 @@ def generate_token():
 
     if user:
         access_token = create_access_token(identity=email)
-        return jsonify({"TOKEN": access_token, "User": user.serialize()})
+        return jsonify({"TOKEN": access_token, "User": user.serialize()}), 200
 
     else: 
         return jsonify({"Message": "Wrong email or password"}),404
@@ -68,6 +68,6 @@ def generate_token():
 @jwt_required()
 def get_private_info():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = User.query.filter_by(email=user_id).first()    
 
-    return jsonify({"ID": user_id, "Email": user.email})
+    return jsonify({ "Email": user.email})

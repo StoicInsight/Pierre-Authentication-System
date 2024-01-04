@@ -1,22 +1,20 @@
 /* 
     General Styles used on every website (Don't Repeat Yourself)
 */
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+  color: white;
+}
 
-.login {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 4rem;
-}
-.signup {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 4rem;
-}
-.private {
+.login,
+.signup,
+.private,
+.user,
+.home {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,7 +25,8 @@
 .form {
   display: block;
   padding: 2.2rem;
-  max-width: 350px;
+  overflow-x: none;
+  max-width: 500px;
   background: linear-gradient(
       14deg,
       rgba(2, 0, 36, 0.8) 0%,
@@ -46,8 +45,6 @@
   overflow: hidden;
   z-index: +1;
 }
-
-/*------input and submit section-------*/
 
 .input-container {
   position: relative;
@@ -144,8 +141,6 @@
   }
 }
 
-/*--------signup section---------*/
-
 .signup-link {
   color: #c0c0c0;
   font-size: 0.875rem;
@@ -162,8 +157,6 @@
 .up:hover {
   text-decoration: underline;
 }
-
-/*--------header section-----------*/
 
 .form-title {
   font-size: 1.25rem;
@@ -239,8 +232,6 @@
     opacity: 1;
   }
 }
-
-/*---------shooting stars-----------*/
 
 .bg-stars {
   position: absolute;
@@ -333,4 +324,11 @@
   left: initial;
   animation-delay: 1.6s;
   animation-duration: 1.6s;
+}
+
+.login {
+  background-color: #fff;
+  padding: 0.5rem;
+  border-radius: 10px;
+  text-decoration: none;
 }

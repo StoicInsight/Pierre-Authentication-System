@@ -15,12 +15,52 @@ const getState = ({ getStore, getActions, setStore }) => {
         },
       ],
       token: null,
-      user: "",
+      user: null,
     },
     actions: {
       // Use getActions to call a function within a fuction
       exampleFunction: () => {
         getActions().changeColor(0, "green");
+      },
+
+      validateUser: async (token) => {
+        const opts = {
+          methods: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer" + " " + token,
+          },
+        };
+
+        try {
+          const res = await fetch(
+            "https://probable-disco-55v7qjqv9vxh4vww-3001.app.github.dev/api/private",
+            opts
+          );
+          console.log("validation response", res);
+          return true;
+        } catch (error) {
+          console.log("Validation error", error);
+          return false;
+        }
+      },
+
+      signUpUser: async (email, password) => {
+        try {
+          await fetch(
+            "https://probable-disco-55v7qjqv9vxh4vww-3001.app.github.dev/api/create-user",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email: email, password: password }),
+            }
+          );
+          return true;
+        } catch (error) {
+          console.error("Signup error", error);
+        }
       },
 
       login: async (email, password) => {
@@ -39,15 +79,26 @@ const getState = ({ getStore, getActions, setStore }) => {
           const res = await data.json();
 
           sessionStorage.setItem("Token", res.TOKEN);
-          setStore({ token: res.TOKEN });
+          sessionStorage.setItem("User", res.User.email);
+          setStore({ token: res.TOKEN, user: res.User.email });
+          return true;
         } catch (error) {
-          console.error("Error getting token", error);
+          // console.error("Error getting token", error);
+          return error;
         }
       },
 
       logout: () => {
         sessionStorage.removeItem("Token");
-        setStore({ token: null });
+        sessionStorage.removeItem("User");
+        setStore({ token: null, user: null });
+      },
+
+      syncToken: () => {
+        const store = getStore();
+        const token = sessionStorage.getItem("Token");
+        if (token !== null || token !== undefined || token !== "")
+          setStore({ token: token });
       },
 
       getMessage: async () => {

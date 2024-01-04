@@ -6,13 +6,22 @@ export const Login = () => {
   const { store, actions } = useContext(Context);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  
   const submitForm = (e) => {
     e.preventDefault();
-    actions.login(email, password);
-    navigate("/private");
+    const token = sessionStorage.getItem("Token");
+
+    try {
+      actions.login(email, password);
+      navigate("/user");
+    } catch (error) {
+      console.log("error loggin in ", error);
+      if (token === null || token === "undefined" || token === "") {
+        navigate("/");
+      }
+    }
   };
 
   return (
@@ -52,9 +61,9 @@ export const Login = () => {
 
         <p className="signup-link">
           No account?
-          <a href="" className="up">
+          <Link to="/signup" className="up">
             Sign up!
-          </a>
+          </Link>
         </p>
       </form>
     </div>

@@ -1,33 +1,32 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { Context } from "../store/appContext";
 
 export const Signup = () => {
+  const { store, actions } = useContext(Context);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const signUpUser = async () => {
-    const req = await fetch(
-      "https://probable-disco-55v7qjqv9vxh4vww-3001.app.github.dev/api/create-user",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: email, password: password }),
-      }
-    );
+  // const signUpUser = async () => {
+  //   const req = await fetch(
+  //     "https://probable-disco-55v7qjqv9vxh4vww-3001.app.github.dev/api/create-user",
+  //     {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ email: email, password: password }),
+  //     }
+  //   );
 
-    const res = await req.json();
-
-    console.log("Create user response", res);
-  };
+  //   const res = await req.json();
+  // };
 
   const submitForm = (e) => {
     e.preventDefault();
-    signUpUser();
+    actions.signUpUser(email, password);
     navigate("/login");
-    console.log("Form submited");
   };
 
   return (
